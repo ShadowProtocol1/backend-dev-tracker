@@ -1,0 +1,31 @@
+{
+  "name": "backend-dev-tracker",
+  "version": "1.0.0",
+  "description": "DevTracker backend API — Express + MongoDB Atlas, deployed as Vercel serverless functions",
+  "main": "api/index.js",
+  "scripts": {
+    "dev": "nodemon api/index.js",
+    "start": "node api/index.js",
+    "lint": "eslint src/ api/",
+    "vercel-build": "echo 'No build step required'"
+  },
+  "keywords": ["devtracker", "express", "mongodb", "vercel", "serverless"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
+    "multer": "^1.4.5-lts.1",
+    "express-rate-limit": "^7.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
