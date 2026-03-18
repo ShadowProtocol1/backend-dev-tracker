@@ -52,6 +52,11 @@ app.use(express.urlencoded({ extended: true }));
 // Static files (for dashboard)
 app.use(express.static(path.join(__dirname, "../public")));
 
+// Favicon handler (serve logo.svg as favicon.ico)
+app.get("/favicon.ico", (_req, res) => {
+  res.sendFile(path.join(__dirname, "../public/logo.svg"));
+});
+
 // Rate limiting (per IP)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
