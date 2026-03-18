@@ -77,10 +77,6 @@ app.get("/", (_req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-app.get("/dashboard", (_req, res) => {
-  res.sendFile(path.join(__dirname, "../public/dashboard.html"));
-});
-
 // ─── Dashboard API Routes ───────────────────────────────
 app.use("/api/dashboard", dashboardRoutes);
 
