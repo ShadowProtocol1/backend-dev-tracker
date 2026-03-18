@@ -31,10 +31,24 @@ header {
   gap: 20px;
 }
 
+.header-left {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.logo {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+  flex-shrink: 0;
+}
+
 .header-left h1 {
   font-size: 28px;
   color: #667eea;
-  margin-bottom: 5px;
+  margin: 0;
 }
 
 .header-left p {
