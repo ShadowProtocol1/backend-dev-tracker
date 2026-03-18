@@ -1,109 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>DevTracker Control Center</title>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
-	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
-
-		body {
-			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", 
-				"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-			min-height: 100vh;
-			padding: 20px;
-			color: #333;
-		}
-
-		.container {
-			max-width: 1400px;
-			margin: 0 auto;
-		}
-
-		header {
-			background: white;
-			padding: 30px;
-			border-radius: 12px;
-			margin-bottom: 30px;
-			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			flex-wrap: wrap;
-			gap: 20px;
-		}
-
-		.header-left h1 {
-			font-size: 28px;
-			color: #667eea;
-			margin-bottom: 5px;
-		}
-
-		.header-left p {
-			color: #888;
-			font-size: 14px;
-		}
-
-		.header-right {
-			display: flex;
-			gap: 15px;
-			align-items: center;
-		}
-
-		.status-badge {
-			display: inline-flex;
-			align-items: center;
-			gap: 8px;
-			padding: 8px 16px;
-			border-radius: 20px;
-			font-size: 13px;
-			font-weight: 600;
-		}
-
-		.status-online {
-			background: #d4edda;
-			color: #155724;
-		}
-
-		.status-offline {
-			background: #f8d7da;
-			color: #721c24;
-		}
-
-		.dot {
-			width: 8px;
-			height: 8px;
-			border-radius: 50%;
-			display: inline-block;
-		}
-
-		.dot-green {
-			background: #28a745;
-			animation: pulse 2s infinite;
-		}
-
-		.dot-red {
-			background: #dc3545;
-		}
-
-		@keyframes pulse {
-			0%, 100% {
-				opacity: 1;
-			}
-			50% {
-				opacity: 0.5;
-			}
-		}
-		/* ...rest of dashboard.html content... */
-	</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevTracker Control Center</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-	<!-- ...rest of dashboard.html content... -->
+  <div class="container">
+    <header>
+      <div class="header-left">
+        <h1>≡ƒÄ¢∩╕Å DevTracker Control Center</h1>
+        <p id="timestamp">Loading...</p>
+      </div>
+      <div class="header-right">
+        <span id="server-status" class="status-badge">
+          <span class="dot dot-green"></span>
+          Server Online
+        </span>
+        <span id="db-status" class="status-badge">
+          <span class="dot dot-green"></span>
+          Database Connected
+        </span>
+        <button class="refresh-btn" id="refresh-btn">Γå╗ Refresh</button>
+      </div>
+    </header>
+
+    <!-- Status Cards -->
+    <div class="section">
+      <div class="grid" id="status-cards">
+        <div class="card">
+          <h3>Server Uptime</h3>
+          <div class="card-value" id="uptime">-</div>
+          <div class="card-subtitle">Time running</div>
+        </div>
+        <div class="card traffic-card">
+          <h3>Total Requests</h3>
+          <div class="card-value" id="total-requests">0</div>
+          <div class="card-subtitle">Since server start</div>
+        </div>
+        <div class="card">
+          <h3>Avg Response Time</h3>
+          <div class="card-value" id="avg-response">0<span style="font-size: 18px">ms</span></div>
+          <div class="card-subtitle">All endpoints</div>
+        </div>
+        <div class="card">
+          <h3>Error Rate</h3>
+          <div class="card-value" id="error-rate">0<span style="font-size: 18px">%</span></div>
+          <div class="card-subtitle">Failed requests</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Database Info -->
+    <div class="section">
+      <div class="section-title">≡ƒôè Database Status</div>
+      <div class="db-info" id="db-info">
+        <div class="db-info-item">
+          <label>Status</label>
+          <value id="db-status-text">-</value>
+        </div>
+        <div class="db-info-item">
+          <label>Database Name</label>
+          <value id="db-name">-</value>
+        </div>
+        <div class="db-info-item">
+          <label>Host</label>
+          <value id="db-host">-</value>
+        </div>
+        <div class="db-info-item">
+          <label>Collections</label>
+          <value id="db-collections">-</value>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="section">
+      <div class="section-title">≡ƒôê Traffic Analytics</div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>Requests by Method</h3>
+          <canvas id="methodChart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Response Time Distribution</h3>
+          <canvas id="responseTimeChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Requests -->
+    <div class="section">
+      <div class="section-title">≡ƒöä Recent Requests (Last 20)</div>
+      <div class="recent-requests" id="recent-requests">
+        <p style="color: #999; text-align: center; padding: 20px">No requests yet</p>
+      </div>
+    </div>
+
+    <!-- API Routes -->
+    <div class="section">
+      <div class="section-title">≡ƒ¢ú∩╕Å Available API Routes</div>
+      <table class="routes-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Path</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody id="routes-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
 </body>
 </html>
