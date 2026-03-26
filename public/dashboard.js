@@ -1,7 +1,3 @@
-import { inject } from "@vercel/analytics";
-
-inject();
-
 let methodChart = null;
 let responseTimeChart = null;
 
