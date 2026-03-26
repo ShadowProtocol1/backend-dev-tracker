@@ -15,6 +15,9 @@ const app = express();
 
 // ─── Global Middleware ───────────────────────────────────
 
+// Trust proxy for serverless environments (Vercel)
+app.set("trust proxy", 1);
+
 // Metrics middleware (track all requests)
 app.use(metricsMiddleware);
 
