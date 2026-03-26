@@ -82,7 +82,7 @@ const checkDatabaseStatus = async () => {
     return {
       status: stateMap[state],
       connected: state === 1,
-      name: mongoose.connection.name || "devtracker",
+      name: mongoose.connection.name,
       collections,
       host: mongoose.connection.host || "N/A",
     };
