@@ -15,7 +15,19 @@ const connectDB = require("../src/config/db");
 let isConnected = false;
 
 const handler = async (req, res) => {
+  // Log request IP and headers for debugging
+  const ip = req.headers["x-forwarded-for"] || req.socket?.remoteAddress || "unknown";
+  const trueclientip = req.headers["cf-connecting-ip"] || "N/A";
+  const xrealip = req.headers["x-real-ip"] || "N/A";
+  
+  console.log("[API] Incoming Request");
+  console.log(`  IP (x-forwarded-for): ${ip}`);
+  console.log(`  CF IP (cf-connecting-ip): ${trueclientip}`);
+  console.log(`  Real IP (x-real-ip): ${xrealip}`);
+  console.log(`  User-Agent: ${req.headers["user-agent"]}`);
+  
   if (!isConnected) {
+    console.log("[API] Connecting to MongoDB...");
     await connectDB();
     isConnected = true;
   }
