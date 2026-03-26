@@ -9,18 +9,25 @@
     "lint": "eslint src/ api/",
     "vercel-build": "echo 'No build step required'"
   },
-  "keywords": ["devtracker", "express", "mongodb", "vercel", "serverless"],
+  "keywords": [
+    "devtracker",
+    "express",
+    "mongodb",
+    "vercel",
+    "serverless"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.5",
-    "multer": "^1.4.5-lts.1",
-    "express-rate-limit": "^7.5.0"
+    "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
