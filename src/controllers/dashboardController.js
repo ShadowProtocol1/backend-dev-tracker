@@ -73,20 +73,27 @@ const checkDatabaseStatus = async () => {
 
     let collections = [];
     let db = mongoose.connection.db;
+    let name = mongoose.connection.name || "unknown";
 
-    if (db && state === 1) {
-      const collectionList = await db.listCollections().toArray();
-      collections = collectionList.map((c) => c.name);
+    // For serverless, try to list collections to verify connection
+    if (db) {
+      try {
+        const collectionList = await db.listCollections().toArray();
+        collections = collectionList.map((c) => c.name);
+      } catch (e) {
+        console.log("[DB Status] Could not list collections:", e.message);
+      }
     }
 
     return {
       status: stateMap[state],
       connected: state === 1,
-      name: mongoose.connection.name,
+      name,
       collections,
       host: mongoose.connection.host || "N/A",
     };
   } catch (error) {
+    console.error("[DB Status] Error:", error.message);
     return {
       status: "error",
       connected: false,
